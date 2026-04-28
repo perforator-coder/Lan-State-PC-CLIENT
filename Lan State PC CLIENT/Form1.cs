@@ -13,9 +13,9 @@ namespace Lan_State_PC_CLIENT
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
             this.notifyIcon1.Icon = this.Icon;
-            
+
             this.notifyIcon1.Visible = true;
-            
+
             if (!File.Exists("IP_SERV.txt") || !File.Exists("PORT_serv.txt") || !File.Exists("NICK_client.txt"))
             {
                 //вызываем форму для изменения данных
@@ -42,7 +42,7 @@ namespace Lan_State_PC_CLIENT
                     IP_SERVER_BOX.Text = IP_serv;
                     PORT_SERVER_BOX.Text = PORT_serv.ToString();
                     NICK_CLIENT_BOX.Text = NICK_client;
-                    ClientAct =  new LanClientacts(IP_serv, PORT_serv, NICK_client);
+                    ClientAct = new LanClientacts(IP_serv, PORT_serv, NICK_client);
                     ClientAct.StartClient();
                 }
             }
@@ -68,7 +68,7 @@ namespace Lan_State_PC_CLIENT
             this.Hide();
             this.notifyIcon1.Visible = true;
             //и создаем соединение
-            ClientAct = new LanClientacts(IP_serv,PORT_serv,NICK_client);
+            ClientAct = new LanClientacts(IP_serv, PORT_serv, NICK_client);
             ClientAct.StartClient();
 
 
@@ -96,6 +96,11 @@ namespace Lan_State_PC_CLIENT
         {
             About_app form_about = new About_app();
             form_about.ShowDialog();
+        }
+
+        private void IP_SERVER_BOX_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
