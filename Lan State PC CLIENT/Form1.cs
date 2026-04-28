@@ -11,9 +11,10 @@ namespace Lan_State_PC_CLIENT
             //скрываем форму
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
-
-            this.notifyIcon1.Visible = true;
             this.notifyIcon1.Icon = this.Icon;
+            
+            this.notifyIcon1.Visible = true;
+            
             if (!File.Exists("IP_SERV.txt") || !File.Exists("PORT_serv.txt") || !File.Exists("NICK_client.txt"))
             {
                 //вызываем форму для изменения данных
@@ -58,9 +59,10 @@ namespace Lan_State_PC_CLIENT
             // скрываем в трей программу
             this.Hide();
             this.notifyIcon1.Visible = true;
-            this.notifyIcon1.ShowBalloonTip(10);
-          
-           
+            //и создаем соединение
+
+
+
         }
         private void SaveClientData(object sender, EventArgs e)
         {
@@ -78,6 +80,12 @@ namespace Lan_State_PC_CLIENT
             this.notifyIcon1.Visible = false;
             this.ShowInTaskbar = true;
             // и останавливается клиенская часть
+        }
+
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About_app form_about = new About_app();
+            form_about.ShowDialog();
         }
     }
 }
