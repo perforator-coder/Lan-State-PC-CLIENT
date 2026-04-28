@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Lan_State_PC_CLIENT
 {
@@ -33,17 +34,22 @@ namespace Lan_State_PC_CLIENT
                 SendMS.AutoFlush = true; // установка автоматической отправки
                 while (tcpClient.Connected)
                 {
-                    string ServerMS = await ReadMS.ReadLineAsync();
+                    string ServerMS_tmp = await ReadMS.ReadLineAsync();
+                    // как разешить 1 спец символ смотреть надо
+                    string ServerMS =   Regex.Replace(ServerMS_tmp, @"[^a-zA-Z0-9]","");
+                    //строка больше чем ожидается
                     switch (ServerMS)
                     {
-                        case "PING_ID":
+                        case "PINGID":
                             // отправляем ID если есть запрос
                             await SendMS.WriteLineAsync(nickname);
                             break;
                         case "STATUS":
                             await SendMS.WriteLineAsync("CLIENT:OK");
                             break;
-
+                        default:
+                            return true;
+                            
                     }
                 }
                 return true;
