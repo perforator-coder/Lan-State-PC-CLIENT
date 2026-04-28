@@ -5,6 +5,7 @@ namespace Lan_State_PC_CLIENT
         private string IP_serv;
         private int PORT_serv;
         private string NICK_client;
+        private LanClientacts ClientAct;
         public Form1()
         {
             InitializeComponent();
@@ -35,11 +36,14 @@ namespace Lan_State_PC_CLIENT
                 }
                 else
                 {
+                    // если есть все то создаем подключение
                     IP_serv = File.ReadAllText("IP_SERV.txt");
                     NICK_client = File.ReadAllText("NICK_client.txt");
                     IP_SERVER_BOX.Text = IP_serv;
                     PORT_SERVER_BOX.Text = PORT_serv.ToString();
                     NICK_CLIENT_BOX.Text = NICK_client;
+                    ClientAct =  new LanClientacts(IP_serv, PORT_serv, NICK_client);
+                    ClientAct.StartClient();
                 }
             }
             // проверяем данные если они коректны то создаем TCP соединения
@@ -54,13 +58,18 @@ namespace Lan_State_PC_CLIENT
                 MessageBox.Show("Ошибка: Данные не коректны", "CLIENT DATA ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             IP_serv = IP_SERVER_BOX.Text;
             NICK_client = NICK_CLIENT_BOX.Text;
+            File.WriteAllText("IP_SERV.txt", IP_serv);
+            File.WriteAllText("PORT_serv.txt", PORT_serv.ToString());
+            File.WriteAllText("NICK_client.txt", NICK_client);
             // скрываем в трей программу
             this.Hide();
             this.notifyIcon1.Visible = true;
             //и создаем соединение
-
+            ClientAct = new LanClientacts(IP_serv,PORT_serv,NICK_client);
+            ClientAct.StartClient();
 
 
         }
@@ -80,6 +89,7 @@ namespace Lan_State_PC_CLIENT
             this.notifyIcon1.Visible = false;
             this.ShowInTaskbar = true;
             // и останавливается клиенская часть
+            //ClientAct.StopClient();
         }
 
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
