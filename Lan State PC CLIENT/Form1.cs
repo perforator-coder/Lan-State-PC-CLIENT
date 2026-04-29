@@ -89,7 +89,7 @@ namespace Lan_State_PC_CLIENT
             this.notifyIcon1.Visible = false;
             this.ShowInTaskbar = true;
             // и останавливается клиенская часть
-            //ClientAct.StopClient();
+            ClientAct.StopClient();
         }
 
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
@@ -101,6 +101,17 @@ namespace Lan_State_PC_CLIENT
         private void IP_SERVER_BOX_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClientAct.StopClient();
+            this.Close();
         }
     }
 }

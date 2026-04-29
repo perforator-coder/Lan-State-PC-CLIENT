@@ -40,8 +40,11 @@
             NICK_CLIENT_BOX = new TextBox();
             SAVE_PAM = new Button();
             notifyIcon1 = new NotifyIcon(components);
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            выходToolStripMenuItem = new ToolStripMenuItem();
             label4 = new Label();
             menuStrip1.SuspendLayout();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -134,10 +137,25 @@
             notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
             notifyIcon1.BalloonTipText = "Программа работает в трее.\r\nКлиент запущен...";
             notifyIcon1.BalloonTipTitle = "Lan State PC CLIENT";
+            notifyIcon1.ContextMenuStrip = contextMenuStrip1;
             notifyIcon1.Icon = (Icon)resources.GetObject("notifyIcon1.Icon");
             notifyIcon1.Text = "Lan State PC CLIENT";
             notifyIcon1.Visible = true;
-            notifyIcon1.MouseClick += notifyIcon1_MouseDoubleClick;
+            notifyIcon1.MouseDoubleClick += notifyIcon1_MouseDoubleClick;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { выходToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(109, 26);
+            contextMenuStrip1.Opening += contextMenuStrip1_Opening;
+            // 
+            // выходToolStripMenuItem
+            // 
+            выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            выходToolStripMenuItem.Size = new Size(108, 22);
+            выходToolStripMenuItem.Text = "Выход";
+            выходToolStripMenuItem.Click += выходToolStripMenuItem_Click;
             // 
             // label4
             // 
@@ -170,9 +188,11 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Lan State PC CLIENT";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -190,5 +210,7 @@
         private Button SAVE_PAM;
         private NotifyIcon notifyIcon1;
         private Label label4;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem выходToolStripMenuItem;
     }
 }

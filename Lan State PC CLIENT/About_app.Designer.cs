@@ -74,16 +74,16 @@
             label2.Font = new Font("Tahoma", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 204);
             label2.Location = new Point(208, 204);
             label2.Name = "label2";
-            label2.Size = new Size(147, 25);
+            label2.Size = new Size(153, 25);
             label2.TabIndex = 3;
-            label2.Text = "CodeName:V";
+            label2.Text = "CodeName: V";
             // 
             // About_app
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 255, 192);
-            ClientSize = new Size(367, 257);
+            ClientSize = new Size(367, 240);
             Controls.Add(label2);
             Controls.Add(linkLabel1);
             Controls.Add(label1);
