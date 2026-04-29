@@ -6,6 +6,7 @@ namespace Lan_State_PC_CLIENT
         private int PORT_serv;
         private string NICK_client;
         private LanClientacts ClientAct;
+        private bool isFirtstime = true;
         public Form1()
         {
             InitializeComponent();
@@ -44,6 +45,11 @@ namespace Lan_State_PC_CLIENT
                     NICK_CLIENT_BOX.Text = NICK_client;
                     ClientAct = new LanClientacts(IP_serv, PORT_serv, NICK_client);
                     ClientAct.StartClient();
+                    if (isFirtstime)
+                    {
+                        notifyIcon1.ShowBalloonTip(10, "Lan State PC CLIENT", "Клиент запущен в фоне", ToolTipIcon.Info);
+                        isFirtstime = false;
+                    }
                 }
             }
             // проверяем данные если они коректны то создаем TCP соединения
@@ -70,6 +76,11 @@ namespace Lan_State_PC_CLIENT
             //и создаем соединение
             ClientAct = new LanClientacts(IP_serv, PORT_serv, NICK_client);
             ClientAct.StartClient();
+            if (isFirtstime)
+            {
+                notifyIcon1.ShowBalloonTip(10, "Lan State PC CLIENT", "Клиент запущен в фоне", ToolTipIcon.Info);
+                isFirtstime = false;
+            }
 
 
         }
