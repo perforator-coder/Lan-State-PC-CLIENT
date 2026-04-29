@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -78,18 +79,18 @@ namespace Lan_State_PC_CLIENT
         {
             // создаем стринг билдер и добовляем через : данные
             StringBuilder Sendinfo_txt = new StringBuilder();
-            //добовляем локальный ip
+            //добовляем локальный ip 0
             IPAddress[] IPs = Dns.GetHostAddresses(Dns.GetHostName());
             foreach (IPAddress ip in IPs)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
                     Sendinfo_txt.Append(ip.ToString());
-                    Sendinfo_txt.Append(':');
+                    Sendinfo_txt.Append(',');
                     break;
                 }
             }
-            // Проверяем есть ли доступ к интернету
+            // Проверяем есть ли доступ к интернету 1
             bool haveConect = false;
             try
             {
@@ -114,16 +115,66 @@ namespace Lan_State_PC_CLIENT
             {
                 Sendinfo_txt.Append("Нет");
             }
-            Sendinfo_txt.Append(':');
+            Sendinfo_txt.Append(',');
             //получаем имя системы (Windows n)
-            //получение данных 
-
-            Sendinfo_txt.Append(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName",""));
+            //получение данных 2
+            string os_info = "";
+            string Gpu_info = "";
+            string mac = "";
+            try 
+            {
+                using (var INFO_OS = new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem"))
+                {
+                    
+                    foreach (var INFO in INFO_OS.Get())
+                    {
+                        os_info = INFO["Caption"]?.ToString();
+                        //MessageBox.Show(os_info);
+                        break;
+                    }
+                }
+                // получение gpu 4
+                using (ManagementObjectSearcher Ser = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController"))
+                {
+                    foreach (var info in Ser.Get())
+                    {
+                        Gpu_info = info["Name"].ToString();
+                        break;
+                    }
+                }
+                using (ManagementObjectSearcher Ser = new ManagementObjectSearcher("SELECT MacAddress FROM Win32_NetworkAdapterConfiguration WHERE IPEnabled = True"))
+                {
+                    foreach (ManagementObject info in Ser.Get())
+                    {
+                        if (info["MacAddress"] != null )
+                        {
+                            mac = info["MacAddress"].ToString();
+                        }
+                    }    
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return "er,er,er,er,er,er";
+            }
+            //MessageBox.Show(os_info);
+            Sendinfo_txt.Append(os_info);
+            Sendinfo_txt.Append(',');
            
-            //получаем тип процесора
-            Sendinfo_txt.Append(':');
-            Sendinfo_txt.Append(Registry.GetValue(@"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System\CentralProcessor\0", "ProcessorNameString",""));
+            //получаем тип процесора 3
+            Sendinfo_txt.Append(Registry.GetValue(@"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System\CentralProcessor\0", "ProcessorNameString","Неизвестно").ToString());
+            Sendinfo_txt.Append(',');
+            // добовляем gpu 4
+            Sendinfo_txt.Append(Gpu_info);
+            Sendinfo_txt.Append(',');
+            // Добовляем mac адрес 5
+           
+            
+            Sendinfo_txt.Append(mac);
+            Sendinfo_txt.Append(',');
             // отдаем строку
+            //MessageBox.Show(Sendinfo_txt.ToString());
             return Sendinfo_txt.ToString();
             
 
