@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -87,14 +89,14 @@ namespace Lan_State_PC_CLIENT
                     break;
                 }
             }
-            // добовляем тип ос
+            // Проверяем есть ли доступ к интернету
             bool haveConect = false;
             try
             {
                 Ping Pingsb = new Ping();
                 Byte[] bufer = new byte[32];
                 PingOptions Options = new PingOptions();
-                PingReply Reply = Pingsb.Send("77.88.8.8", 10000, bufer, Options);
+                PingReply Reply = Pingsb.Send("77.88.8.8", 5000, bufer, Options);
                 if (Reply.Status == IPStatus.Success)
                 {
                     haveConect = true;
@@ -112,7 +114,15 @@ namespace Lan_State_PC_CLIENT
             {
                 Sendinfo_txt.Append("Нет");
             }
+            Sendinfo_txt.Append(':');
+            //получаем имя системы (Windows n)
+            //получение данных 
 
+            Sendinfo_txt.Append(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName",""));
+           
+            //получаем тип процесора
+            Sendinfo_txt.Append(':');
+            Sendinfo_txt.Append(Registry.GetValue(@"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System\CentralProcessor\0", "ProcessorNameString",""));
             // отдаем строку
             return Sendinfo_txt.ToString();
             
