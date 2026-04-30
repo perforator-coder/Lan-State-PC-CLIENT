@@ -1,3 +1,5 @@
+
+
 namespace Lan_State_PC_CLIENT
 {
     public partial class Form1 : Form
@@ -6,7 +8,7 @@ namespace Lan_State_PC_CLIENT
         private int PORT_serv;
         private string NICK_client;
         private LanClientacts ClientAct;
-        private bool isFirtstime = true;
+        private bool notifyEnable = true;
         public Form1()
         {
             InitializeComponent();
@@ -14,15 +16,28 @@ namespace Lan_State_PC_CLIENT
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
             this.notifyIcon1.Icon = this.Icon;
-
             this.notifyIcon1.Visible = true;
+            /// Проверяем есть ли файлы конфиги
+            if (File.Exists("notify.txt") && bool.TryParse(File.ReadAllText("notify.txt"), out notifyEnable))
+            {
+                if (notifyEnable)
+                {
 
+                    this.отключитьУведомленияToolStripMenuItem.Text = "Включить уведомления";
+                }
+                else
+                {
+
+                    this.отключитьУведомленияToolStripMenuItem.Text = "Отключить уведомления";
+                }
+            }
             if (!File.Exists("IP_SERV.txt") || !File.Exists("PORT_serv.txt") || !File.Exists("NICK_client.txt"))
             {
                 //вызываем форму для изменения данных
-                this.Show();
+                this.WindowState = FormWindowState.Normal;
                 this.notifyIcon1.Visible = false;
                 this.ShowInTaskbar = true;
+                this.Show();
 
             }
             else
@@ -31,9 +46,11 @@ namespace Lan_State_PC_CLIENT
                 if (!int.TryParse(File.ReadAllText("PORT_serv.txt"), out PORT_serv))
                 {
                     //вызываем форму для изменения
-                    this.Show();
+                    this.WindowState = FormWindowState.Normal;
                     this.notifyIcon1.Visible = false;
                     this.ShowInTaskbar = true;
+                    this.Show();
+
                 }
                 else
                 {
@@ -45,10 +62,10 @@ namespace Lan_State_PC_CLIENT
                     NICK_CLIENT_BOX.Text = NICK_client;
                     ClientAct = new LanClientacts(IP_serv, PORT_serv, NICK_client);
                     ClientAct.StartClient();
-                    if (isFirtstime)
+                    if (notifyEnable)
                     {
                         notifyIcon1.ShowBalloonTip(10, "Lan State PC CLIENT", "Клиент запущен в фоне", ToolTipIcon.Info);
-                        isFirtstime = false;
+                        //notifyEnable = false;
                     }
                 }
             }
@@ -76,10 +93,10 @@ namespace Lan_State_PC_CLIENT
             //и создаем соединение
             ClientAct = new LanClientacts(IP_serv, PORT_serv, NICK_client);
             ClientAct.StartClient();
-            if (isFirtstime)
+            if (notifyEnable)
             {
                 notifyIcon1.ShowBalloonTip(10, "Lan State PC CLIENT", "Клиент запущен в фоне", ToolTipIcon.Info);
-                isFirtstime = false;
+                //notifyEnable = false;
             }
 
 
@@ -90,6 +107,7 @@ namespace Lan_State_PC_CLIENT
             File.WriteAllText("IP_SERV.txt", IP_serv);
             File.WriteAllText("PORT_serv.txt", PORT_serv.ToString());
             File.WriteAllText("NICK_client.txt", NICK_client);
+            File.WriteAllText("notify.txt", notifyEnable.ToString());
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -123,6 +141,29 @@ namespace Lan_State_PC_CLIENT
         {
             ClientAct.StopClient();
             this.Close();
+        }
+
+        private void отключитьУведомленияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (notifyEnable)
+            {
+                notifyEnable = false;
+                this.отключитьУведомленияToolStripMenuItem.Text = "Включить уведомления";
+            }
+            else
+            {
+                notifyEnable = true;
+                this.отключитьУведомленияToolStripMenuItem.Text = "Отключить уведомления";
+            }
+        }
+
+        
+        //метод для проверки есть ли автозагрузка
+        private bool GetAutoRun()
+        {
+            string AutoRun_patch = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            string name_link = Path.Combine(AutoRun_patch,Application.ProductName + ".lnk");
+            return false;
         }
     }
 }

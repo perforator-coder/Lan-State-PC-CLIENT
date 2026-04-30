@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <None Update="Resources\CLIENT_ICON.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             menuStrip1 = new MenuStrip();
             оПрограммеToolStripMenuItem = new ToolStripMenuItem();
+            действияToolStripMenuItem = new ToolStripMenuItem();
+            отключитьУведомленияToolStripMenuItem = new ToolStripMenuItem();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -50,7 +52,8 @@
             // menuStrip1
             // 
             menuStrip1.BackColor = Color.Yellow;
-            menuStrip1.Items.AddRange(new ToolStripItem[] { оПрограммеToolStripMenuItem });
+            menuStrip1.Font = new Font("Tahoma", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { оПрограммеToolStripMenuItem, действияToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(237, 24);
@@ -64,6 +67,20 @@
             оПрограммеToolStripMenuItem.Size = new Size(102, 20);
             оПрограммеToolStripMenuItem.Text = "О программе";
             оПрограммеToolStripMenuItem.Click += оПрограммеToolStripMenuItem_Click;
+            // 
+            // действияToolStripMenuItem
+            // 
+            действияToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { отключитьУведомленияToolStripMenuItem });
+            действияToolStripMenuItem.Name = "действияToolStripMenuItem";
+            действияToolStripMenuItem.Size = new Size(77, 20);
+            действияToolStripMenuItem.Text = "Действия";
+            // 
+            // отключитьУведомленияToolStripMenuItem
+            // 
+            отключитьУведомленияToolStripMenuItem.Name = "отключитьУведомленияToolStripMenuItem";
+            отключитьУведомленияToolStripMenuItem.Size = new Size(232, 22);
+            отключитьУведомленияToolStripMenuItem.Text = "Отключить уведомления";
+            отключитьУведомленияToolStripMenuItem.Click += отключитьУведомленияToolStripMenuItem_Click;
             // 
             // label1
             // 
@@ -212,5 +229,7 @@
         private Label label4;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem выходToolStripMenuItem;
+        private ToolStripMenuItem действияToolStripMenuItem;
+        private ToolStripMenuItem отключитьУведомленияToolStripMenuItem;
     }
 }
