@@ -159,11 +159,6 @@ namespace Lan_State_PC_CLIENT
 
         
         //метод для проверки есть ли автозагрузка
-        private bool GetAutoRun()
-        {
-            string AutoRun_patch = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-            string name_link = Path.Combine(AutoRun_patch,Application.ProductName + ".lnk");
-            return false;
-        }
+       
     }
 }

@@ -9,6 +9,8 @@ using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
+
 
 namespace Lan_State_PC_CLIENT
 {
@@ -41,9 +43,18 @@ namespace Lan_State_PC_CLIENT
                 while (tcpClient.Connected && IsActive)
                 {
                     string ServerMS_tmp = await ReadMS.ReadLineAsync();
-                    // как разешить 1 спец символ смотреть надо
-                    string ServerMS = Regex.Replace(ServerMS_tmp, @"[^a-zA-Z0-9:]", "");
-                    //строка больше чем ожидается
+                    
+                    string ServerMS = Regex.Replace(ServerMS_tmp, @"[^a-zA-Z0-9:А-Яа-я ]", "");
+                    if (ServerMS.Contains(':'))
+                    {
+                        string[] split_ServerMS = ServerMS.Split(':');
+                        if (split_ServerMS[0] == "MS")
+                        {
+                            MessageBox.Show(split_ServerMS[1],"Server MS",MessageBoxButtons.OK);
+                            await SendMS.WriteLineAsync("OK");
+                            continue;
+                        }
+                    }
                     switch (ServerMS)
                     {
                         case "PINGID":
@@ -56,6 +67,15 @@ namespace Lan_State_PC_CLIENT
                         case "GETINFO":
                             await SendMS.WriteLineAsync(SendInfo());
                             break;
+                        case "SHUTDOWN":
+                            Process.Start("shutdown","/s /t 0 /f");
+                            StopClient();
+                            break;
+                        case "RESTART":
+                            Process.Start("shutdown", "/r /t 0 /f");
+                            StopClient();
+                            break;
+                        
                         default:
                             return true;
 
