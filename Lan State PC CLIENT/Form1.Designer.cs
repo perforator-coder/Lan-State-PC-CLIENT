@@ -45,6 +45,7 @@
             contextMenuStrip1 = new ContextMenuStrip(components);
             выходToolStripMenuItem = new ToolStripMenuItem();
             label4 = new Label();
+            добавитьВАвтозагрузкуToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
@@ -53,7 +54,7 @@
             // 
             menuStrip1.BackColor = Color.Yellow;
             menuStrip1.Font = new Font("Tahoma", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { оПрограммеToolStripMenuItem, действияToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { действияToolStripMenuItem, оПрограммеToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(237, 24);
@@ -70,7 +71,7 @@
             // 
             // действияToolStripMenuItem
             // 
-            действияToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { отключитьУведомленияToolStripMenuItem });
+            действияToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { отключитьУведомленияToolStripMenuItem, добавитьВАвтозагрузкуToolStripMenuItem });
             действияToolStripMenuItem.Name = "действияToolStripMenuItem";
             действияToolStripMenuItem.Size = new Size(77, 20);
             действияToolStripMenuItem.Text = "Действия";
@@ -78,7 +79,7 @@
             // отключитьУведомленияToolStripMenuItem
             // 
             отключитьУведомленияToolStripMenuItem.Name = "отключитьУведомленияToolStripMenuItem";
-            отключитьУведомленияToolStripMenuItem.Size = new Size(232, 22);
+            отключитьУведомленияToolStripMenuItem.Size = new Size(233, 22);
             отключитьУведомленияToolStripMenuItem.Text = "Отключить уведомления";
             отключитьУведомленияToolStripMenuItem.Click += отключитьУведомленияToolStripMenuItem_Click;
             // 
@@ -184,6 +185,13 @@
             label4.TabIndex = 8;
             label4.Text = "Параметры Клиента:";
             // 
+            // добавитьВАвтозагрузкуToolStripMenuItem
+            // 
+            добавитьВАвтозагрузкуToolStripMenuItem.Name = "добавитьВАвтозагрузкуToolStripMenuItem";
+            добавитьВАвтозагрузкуToolStripMenuItem.Size = new Size(233, 22);
+            добавитьВАвтозагрузкуToolStripMenuItem.Text = "Добавить в автозагрузку";
+            добавитьВАвтозагрузкуToolStripMenuItem.Click += добавитьВАвтозагрузкуToolStripMenuItem_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -231,5 +239,6 @@
         private ToolStripMenuItem выходToolStripMenuItem;
         private ToolStripMenuItem действияToolStripMenuItem;
         private ToolStripMenuItem отключитьУведомленияToolStripMenuItem;
+        private ToolStripMenuItem добавитьВАвтозагрузкуToolStripMenuItem;
     }
 }
