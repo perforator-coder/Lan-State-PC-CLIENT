@@ -20,6 +20,7 @@ namespace Lan_State_PC_CLIENT
         private string IP_serv;
         private int port;
         private bool IsActive = false;
+        private CancellationTokenSource ctl = new CancellationTokenSource();
 
         public LanClientacts(string IP_serv, int PORT_serv, string Nickname)
         {
@@ -42,7 +43,7 @@ namespace Lan_State_PC_CLIENT
                 SendMS.AutoFlush = true; // установка автоматической отправки
                 while (tcpClient.Connected && IsActive)
                 {
-                    string ServerMS_tmp = await ReadMS.ReadLineAsync();
+                    string ServerMS_tmp = await ReadMS.ReadLineAsync(ctl.Token);
                     
                     string ServerMS = Regex.Replace(ServerMS_tmp, @"[^a-zA-Z0-9:А-Яа-я ]", "");
                     if (ServerMS.Contains(':'))
@@ -93,6 +94,8 @@ namespace Lan_State_PC_CLIENT
         public void StopClient()
         {
             IsActive = false;
+            ctl.Cancel();
+            
         }
         // метод для получения статистики
         public string SendInfo()
