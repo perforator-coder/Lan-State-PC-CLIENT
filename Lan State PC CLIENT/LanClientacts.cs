@@ -21,6 +21,7 @@ namespace Lan_State_PC_CLIENT
         private int port;
         private bool IsActive = false;
         private CancellationTokenSource ctl = new CancellationTokenSource();
+        private TcpClient tcpClient;
 
         public LanClientacts(string IP_serv, int PORT_serv, string Nickname)
         {
@@ -32,69 +33,83 @@ namespace Lan_State_PC_CLIENT
 
         public async Task<bool> StartClient()
         {
-            TcpClient tcpClient = new TcpClient(this.IP_serv, this.port);
-            IsActive = true;
-            if (tcpClient.Connected)
+            try
             {
-                //что будет если соединение сеть
-                NetworkStream stream = tcpClient.GetStream();
-                StreamReader ReadMS = new StreamReader(stream, Encoding.UTF8);
-                StreamWriter SendMS = new StreamWriter(stream, Encoding.UTF8);
-                SendMS.AutoFlush = true; // установка автоматической отправки
-                while (tcpClient.Connected && IsActive)
+                tcpClient = new TcpClient(this.IP_serv, this.port);
+                IsActive = true;
+
+                if (tcpClient.Connected)
                 {
-                    string ServerMS_tmp = await ReadMS.ReadLineAsync(ctl.Token);
-                    
-                    string ServerMS = Regex.Replace(ServerMS_tmp, @"[^a-zA-Z0-9:А-Яа-я ]", "");
-                    if (ServerMS.Contains(':'))
+                    //что будет если соединение сеть
+                    NetworkStream stream = tcpClient.GetStream();
+                    StreamReader ReadMS = new StreamReader(stream, Encoding.UTF8);
+                    StreamWriter SendMS = new StreamWriter(stream, Encoding.UTF8);
+                    SendMS.AutoFlush = true; // установка автоматической отправки
+                    while (tcpClient.Connected && IsActive)
                     {
-                        string[] split_ServerMS = ServerMS.Split(':');
-                        if (split_ServerMS[0] == "MS")
+                        string ServerMS_tmp = await ReadMS.ReadLineAsync(ctl.Token);
+
+                        string ServerMS = Regex.Replace(ServerMS_tmp, @"[^a-zA-Z0-9:А-Яа-я ]", "");
+                        if (ServerMS.Contains(':'))
                         {
-                            MessageBox.Show(split_ServerMS[1],"Server MS",MessageBoxButtons.OK);
-                            await SendMS.WriteLineAsync("OK");
-                            continue;
+                            string[] split_ServerMS = ServerMS.Split(':');
+                            if (split_ServerMS[0] == "MS")
+                            {
+                                MessageBox.Show(split_ServerMS[1], "Server MS", MessageBoxButtons.OK);
+                                await SendMS.WriteLineAsync("OK");
+                                continue;
+                            }
+                        }
+                        switch (ServerMS)
+                        {
+                            case "PINGID":
+                                // отправляем ID если есть запрос
+                                await SendMS.WriteLineAsync(nickname);
+                                break;
+                            case "STATUS":
+                                await SendMS.WriteLineAsync("CLIENT:OK");
+                                break;
+                            case "GETINFO":
+                                await SendMS.WriteLineAsync(SendInfo());
+                                break;
+                            case "SHUTDOWN":
+                                Process.Start("shutdown", "/s /t 0 /f");
+                                StopClient();
+                                break;
+                            case "RESTART":
+                                Process.Start("shutdown", "/r /t 0 /f");
+                                StopClient();
+                                break;
+
+                            default:
+                                return true;
+
                         }
                     }
-                    switch (ServerMS)
-                    {
-                        case "PINGID":
-                            // отправляем ID если есть запрос
-                            await SendMS.WriteLineAsync(nickname);
-                            break;
-                        case "STATUS":
-                            await SendMS.WriteLineAsync("CLIENT:OK");
-                            break;
-                        case "GETINFO":
-                            await SendMS.WriteLineAsync(SendInfo());
-                            break;
-                        case "SHUTDOWN":
-                            Process.Start("shutdown","/s /t 0 /f");
-                            StopClient();
-                            break;
-                        case "RESTART":
-                            Process.Start("shutdown", "/r /t 0 /f");
-                            StopClient();
-                            break;
-                        
-                        default:
-                            return true;
-
-                    }
+                    return true;
                 }
-                return true;
+                else
+                {
+                    MessageBox.Show("Соединения с сервером нет", "Connection error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
             }
-            else
+            catch (OperationCanceledException)
             {
-                MessageBox.Show("Соединения с сервером нет", "Connection error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-
+            finally
+            {
+                IsActive = false;
+            }
         }
         public void StopClient()
         {
             IsActive = false;
             ctl.Cancel();
+            ctl = new CancellationTokenSource();
+            tcpClient.Close();
+            tcpClient.Dispose();
             
         }
         // метод для получения статистики
