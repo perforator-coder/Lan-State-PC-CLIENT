@@ -37,12 +37,12 @@ namespace Lan_State_PC_CLIENT
                 if (notifyEnable)
                 {
 
-                    this.отключитьУведомленияToolStripMenuItem.Text = "Включить уведомления";
+                    this.отключитьУведомленияToolStripMenuItem.Text = "Отключить уведомления";
                 }
                 else
                 {
 
-                    this.отключитьУведомленияToolStripMenuItem.Text = "Отключить уведомления";
+                    this.отключитьУведомленияToolStripMenuItem.Text = "Включить уведомления";
                 }
             }
             if (!File.Exists(appFolder + "IP_SERV.txt") || !File.Exists(appFolder + "PORT_serv.txt") || !File.Exists(appFolder + "NICK_client.txt"))
