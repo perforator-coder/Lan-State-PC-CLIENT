@@ -108,9 +108,19 @@ namespace Lan_State_PC_CLIENT
             IsActive = false;
             ctl.Cancel();
             ctl = new CancellationTokenSource();
-            tcpClient.Close();
-            tcpClient.Dispose();
-            
+
+            if (tcpClient != null)
+            {
+                try
+                {
+                    tcpClient.Close();
+                    tcpClient.Dispose();
+                }
+                catch
+                {
+                    
+                }
+            }
         }
         // метод для получения статистики
         public string SendInfo()
