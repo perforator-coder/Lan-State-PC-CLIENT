@@ -22,6 +22,8 @@ namespace Lan_State_PC_CLIENT
             this.ShowInTaskbar = false;
             this.notifyIcon1.Icon = this.Icon;
             this.notifyIcon1.Visible = true;
+            this.Visible = false;
+            this.Hide();
             // проверяем автозагрузку
             if (appInAutoStart())
             {
@@ -102,8 +104,10 @@ namespace Lan_State_PC_CLIENT
             File.WriteAllText(appFolder + "PORT_serv.txt", PORT_serv.ToString());
             File.WriteAllText(appFolder + "NICK_client.txt", NICK_client);
             // скрываем в трей программу
+            this.Visible = false;
             this.Hide();
             this.notifyIcon1.Visible = true;
+            
             //и создаем соединение
             ClientAct = new LanClientacts(IP_serv, PORT_serv, NICK_client);
             ClientAct.StartClient();

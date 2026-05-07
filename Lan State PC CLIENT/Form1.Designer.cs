@@ -31,9 +31,10 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             menuStrip1 = new MenuStrip();
-            оПрограммеToolStripMenuItem = new ToolStripMenuItem();
             действияToolStripMenuItem = new ToolStripMenuItem();
             отключитьУведомленияToolStripMenuItem = new ToolStripMenuItem();
+            добавитьВАвтозагрузкуToolStripMenuItem = new ToolStripMenuItem();
+            оПрограммеToolStripMenuItem = new ToolStripMenuItem();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -45,7 +46,6 @@
             contextMenuStrip1 = new ContextMenuStrip(components);
             выходToolStripMenuItem = new ToolStripMenuItem();
             label4 = new Label();
-            добавитьВАвтозагрузкуToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
@@ -61,14 +61,6 @@
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
-            // оПрограммеToolStripMenuItem
-            // 
-            оПрограммеToolStripMenuItem.Font = new Font("Tahoma", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
-            оПрограммеToolStripMenuItem.Size = new Size(102, 20);
-            оПрограммеToolStripMenuItem.Text = "О программе";
-            оПрограммеToolStripMenuItem.Click += оПрограммеToolStripMenuItem_Click;
-            // 
             // действияToolStripMenuItem
             // 
             действияToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { отключитьУведомленияToolStripMenuItem, добавитьВАвтозагрузкуToolStripMenuItem });
@@ -82,6 +74,21 @@
             отключитьУведомленияToolStripMenuItem.Size = new Size(233, 22);
             отключитьУведомленияToolStripMenuItem.Text = "Отключить уведомления";
             отключитьУведомленияToolStripMenuItem.Click += отключитьУведомленияToolStripMenuItem_Click;
+            // 
+            // добавитьВАвтозагрузкуToolStripMenuItem
+            // 
+            добавитьВАвтозагрузкуToolStripMenuItem.Name = "добавитьВАвтозагрузкуToolStripMenuItem";
+            добавитьВАвтозагрузкуToolStripMenuItem.Size = new Size(233, 22);
+            добавитьВАвтозагрузкуToolStripMenuItem.Text = "Добавить в автозагрузку";
+            добавитьВАвтозагрузкуToolStripMenuItem.Click += добавитьВАвтозагрузкуToolStripMenuItem_Click;
+            // 
+            // оПрограммеToolStripMenuItem
+            // 
+            оПрограммеToolStripMenuItem.Font = new Font("Tahoma", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
+            оПрограммеToolStripMenuItem.Size = new Size(102, 20);
+            оПрограммеToolStripMenuItem.Text = "О программе";
+            оПрограммеToolStripMenuItem.Click += оПрограммеToolStripMenuItem_Click;
             // 
             // label1
             // 
@@ -185,17 +192,9 @@
             label4.TabIndex = 8;
             label4.Text = "Параметры Клиента:";
             // 
-            // добавитьВАвтозагрузкуToolStripMenuItem
-            // 
-            добавитьВАвтозагрузкуToolStripMenuItem.Name = "добавитьВАвтозагрузкуToolStripMenuItem";
-            добавитьВАвтозагрузкуToolStripMenuItem.Size = new Size(233, 22);
-            добавитьВАвтозагрузкуToolStripMenuItem.Text = "Добавить в автозагрузку";
-            добавитьВАвтозагрузкуToolStripMenuItem.Click += добавитьВАвтозагрузкуToolStripMenuItem_Click;
-            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.FromArgb(255, 255, 192);
             ClientSize = new Size(237, 192);
             Controls.Add(label4);
@@ -207,10 +206,11 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(menuStrip1);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
+            MdiChildrenMinimizedAnchorBottom = false;
             MinimizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
